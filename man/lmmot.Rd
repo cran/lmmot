@@ -1,0 +1,77 @@
+\name{lmmot}
+\alias{lmmot}
+\title{Multiple Ordinal Tobit Model}
+\usage{
+lmmot(formula, data = sys.frame(sys.parent()), threshold)
+}
+\arguments{
+  \item{formula}{Object of class formula describing the
+  model.}
+
+  \item{data}{Optional data frame or environment containing
+  the variables in the model.}
+
+  \item{threshold}{Vector of thresholds in the model.}
+}
+\value{
+lmmot object: \link[maxLik]{maxLik} object with additional
+fields: \itemize{ \item{censoring: Number of obeservations
+in the censoring intervals.} \item{fisherInfo: Fisher
+information matrix.} \item{stdEr: Standard errors for
+estimated coefficients.} \item{tval: Value for t statistic
+in Wald test.} \item{pval: p-value in Wald test.}
+\item{fitted.values: Fitted values of the estimated model.}
+\item{residuals: Residuals of the estimated model.} }
+}
+\description{
+Fit right censored Multiple Ordinal Tobit (MOT) model.
+}
+\details{
+Fit right censored Multiple Ordinal Tobit (MOT) model. The
+model is a right censored Tobit model with multiple ordinal
+categories for latent values above the threshold, the
+threshold is therefore replaced by a threshold vector.
+
+For the latent variable a linear model with independent and
+identically distributed non-systematic and homoscedastic
+errors is assumed.
+
+If the threshold is of length 1, the model is equivalent to
+the standard right censored Tobit model.
+
+The data is fitted with the Maximum Likelihood method.
+}
+\examples{
+# Random data for x
+N <- 100
+x <- rnorm(N, 25, 10)
+
+# Simulate data for latent variable ystar with simple linear model
+beta_0 <- 60
+beta_1 <- 1
+sigma <- 8
+ystar <- beta_0 + beta_1*x + rnorm(N, 0, sigma)
+
+# Simulate censoring for observed variable y
+y <- ystar
+y[y >= 100] <- 100
+y[(y >= 90) & (y < 100)] <- 90
+y[(y >= 80) & (y < 90)] <- 80
+
+# MOT regression with observed variable y
+mot.fit <- lmmot(y ~ x, threshold = c(80, 90, 100))
+
+# Show details
+summary(mot.fit)
+
+# Compare real data with model fit
+plot(x, ystar)
+abline(coefficients(mot.fit)[1:2])
+}
+\author{
+Marvin N. Wright
+}
+\seealso{
+\link[stats]{lm} \link[maxLik]{maxLik}
+}
+

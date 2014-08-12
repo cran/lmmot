@@ -1,0 +1,24 @@
+\name{print.lmmot}
+\alias{print.lmmot}
+\title{Print lmmot object}
+\usage{
+\method{print}{lmmot}(x, digits = max(3, getOption("digits") - 3), ...)
+}
+\arguments{
+  \item{x}{lmmot object to print.}
+
+  \item{digits}{number of decimal digits to print.}
+
+  \item{...}{further arguments passed to or from other
+  methods.}
+}
+\description{
+Print lmmot object.
+}
+\author{
+Marvin Wright
+}
+\seealso{
+\link[stats]{lm} \link[lmmot]{lmmot}
+}
+

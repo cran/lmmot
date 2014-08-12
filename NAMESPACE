@@ -1,0 +1,5 @@
+S3method(print,lmmot)
+S3method(summary,lmmot)
+export(lmmot)
+import(MASS)
+import(maxLik)
