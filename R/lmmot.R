@@ -14,6 +14,9 @@
 ##' @param formula Object of class formula describing the model.
 ##' @param data Optional data frame or environment containing the variables in the model.
 ##' @param threshold Vector of thresholds in the model.
+##' @param stdEr Method for standard error estimation. 
+##' Use "fisher" for estimation using the inverse of the Fisher information matrix or "hessian" for estimation using the Hessian matrix. 
+##' @param ... Further arguments passed to the maximum likelihood estimation function \link[maxLik]{maxLik}.  
 ##'
 ##' @return lmmot object: \link[maxLik]{maxLik} object with additional fields: 
 ##' \itemize{
@@ -58,7 +61,7 @@
 ##' abline(coefficients(mot.fit)[1:2])
 ##' @author Marvin N. Wright
 
-lmmot <- function(formula, data=sys.frame(sys.parent()), threshold) {
+lmmot <- function(formula, data=sys.frame(sys.parent()), threshold, stdEr = "fisher", ...) {
   
   # check arguments
   if (class(formula) != "formula") {
@@ -91,14 +94,20 @@ lmmot <- function(formula, data=sys.frame(sys.parent()), threshold) {
   
   # compute ml estimator
   result <- maxLik(logLik=motLogLik, grad=motGradient, hess=motHessian,
-                   x=t(x), y=y, tau=threshold, start=start) 
+                   x=t(x), y=y, tau=threshold, start=start, ...) 
   
   # compute fisher info
   fish <- motFisher(result$estimate, t(x), threshold)
   
   # compute standard error 
-  stdEr <- sqrt(diag(ginv(fish)))
-                
+  if (stdEr == "fisher") {
+    stdEr <- sqrt(diag(ginv(fish)))
+  } else if (stdEr == "hessian") {
+    stdEr <- stdEr(result)
+  } else {
+    stop("unknown method for stdEr.")
+  }
+          
   # perform wald-test
   tval <- result$estimate / stdEr
   pval <- 2 * pt(-abs(tval), df=n-p)
