@@ -3,7 +3,7 @@
 ##' @title Hessian matrix of log-Likelihood for mot model
 ##'
 ##' @param param parameter vector: (beta_0, beta_1, ... , beta_m, sigma).
-##' @param x design matrix of the model.
+##' @param xx design matrix of the model.
 ##' @param y observation vector.
 ##' @param tau threshold vector from tau_1 to tau_K.
 ##'
@@ -12,7 +12,8 @@
 ##' @seealso \link[lmmot]{lmmot} 
 ##' @author Marvin Wright
 
-motHessian <- function(param,x,y,tau) {
+motHessian <- function(param,xx,y,tau) {
+  x <- xx
 	
 	sigma <- param[length(param)]
 	beta <- param[-length(param)]

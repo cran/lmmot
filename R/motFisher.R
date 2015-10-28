@@ -3,7 +3,7 @@
 ##' @title Fisher information for mot model
 ##'
 ##' @param param parameter vector: (beta_0, beta_1, ... , beta_m, sigma).
-##' @param x design matrix of the model.
+##' @param xx design matrix of the model.
 ##' @param tau threshold vector from tau_1 to tau_K.
 ##'
 ##' @return fisher information matrix, summarized over all observations.
@@ -11,7 +11,8 @@
 ##' @seealso \link[lmmot]{lmmot} 
 ##' @author Marvin Wright
 
-motFisher <- function(param,x,tau) {
+motFisher <- function(param,xx,tau) {
+  x <- xx
   
   sigma <- param[length(param)]
   beta <- param[-length(param)]

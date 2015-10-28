@@ -1,4 +1,4 @@
-##' Fit right censored Multiple Ordinal Tobit (MOT) model.
+##' Fit right censored Multiple Ordinal Tobit (MOT) Model.
 ##'
 ##' Fit right censored Multiple Ordinal Tobit (MOT) model. 
 ##' The model is a right censored Tobit model with multiple ordinal categories for latent values above the threshold, the threshold is therefore replaced by a threshold vector.
@@ -30,8 +30,7 @@
 ##' }
 ##' 
 ##' @export
-##' @import maxLik
-##' @import MASS
+##' @import stats maxLik MASS
 ##' @seealso \link[stats]{lm} \link[maxLik]{maxLik}
 ##' @examples
 ##' # Random data for x
@@ -94,7 +93,7 @@ lmmot <- function(formula, data=sys.frame(sys.parent()), threshold, stdEr = "fis
   
   # compute ml estimator
   result <- maxLik(logLik=motLogLik, grad=motGradient, hess=motHessian,
-                   x=t(x), y=y, tau=threshold, start=start, ...) 
+                   xx=t(x), y=y, tau=threshold, start=start, ...) 
   
   # compute fisher info
   fish <- motFisher(result$estimate, t(x), threshold)
