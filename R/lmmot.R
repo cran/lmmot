@@ -1,4 +1,4 @@
-##' Fit right censored Multiple Ordinal Tobit (MOT) Model.
+##' Fit right censored Multiple Ordinal Tobit (MOT) model.
 ##'
 ##' Fit right censored Multiple Ordinal Tobit (MOT) model. 
 ##' The model is a right censored Tobit model with multiple ordinal categories for latent values above the threshold, the threshold is therefore replaced by a threshold vector.
